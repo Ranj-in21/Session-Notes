@@ -1,0 +1,37 @@
+POM - Design pattern to build framework
+Framework:
+It is a real or conceptual structure to help product development
+
+Advantages:
+- When you have framework -  there will be an easy maintenance
+- Increased productivity
+- Maintain the uniformity
+- Reduce duplicate code
+- Support multi-lingual applications
+- Better Reporting
+
+pom.xml - project object model (file to add maven dependencies)
+
+Version: 1.0.0 (major changes, minor changes, maintenance) for Automation framework
+
+src/main/ pages
+Rules:
+1. Each webpage should be designed as an individual class 
+	LoginPage, HomePage, MyHomePage, LeadsPage, CreateLeadPage, ViewLeadPage
+2. Create a java class (base class) for common variables & methods
+3. Each page class should extend the base class
+4. For every action/verification, create individual methods
+
+testCases package
+TC_001CreateLead.class
+5. Create java class for each testcase and extends the baseclass
+6. Return the object of the class where it lands
+
+For parallel execution
+7. All classes 
+1st TC - session id --> 547ehjhk --> Opens browser	1st
+2nd TC - session id --> hgjkd898 --> Opens browser	2nd
+
+driver (static) - 547ehjhk  overridden by hgjkd898 	sequential execution
+driver.findElement from the 2nd browser
+

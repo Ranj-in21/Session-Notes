@@ -1,0 +1,53 @@
+Implicit Wait
+--------------
+
+[Pick up time is 9 AM
+Max wait time is 15 mins
+Cab arrives at 9:05 AM
+Will you board immediately or wait for 15 mins?
+You will board immediately
+If you wait, you'll be delayed]
+
+Application architecture is microservice architecture
+Eg., Salesforce
+Each microservice architecture is loading individual elements
+Not all the elements will not be loaded at 0s.
+
+Need to learn: what is microservice architecture
+
+When try to interact with a webelement using Selenium WebDriver--> 
+
+In Salesforce --> class name = "slds-waffle-icon"	No Such Element Exception	
+Time delay in the script and application
+
+Wait -> to address timing difference between script & app
+	to make the script & application sync
+
+Selenium Wait
+--------------
+1. Implicitly Wait
+2. Explicitly Wait	for single WebElement
+
+Java Wait	(Type of Explicit Wait)
+---------- 
+Thread.sleep(time)	10000 = 10s		
+It will wait for the entire 10s, though the webelement is loaded at 5s.
+It will slown down the execution. This has to be applied wherever(timing issue) needed.
+It will wait till the end of the time limit
+Java wait is not recommended to use in Selenium
+
+
+Impliitly wait --- apply in the beginning of the script
+Syntax: driver.manage().timeouts().implicitlyWait(Duration.ofSeconds);
+Industry standard time : 30s
+>30s - end users won't prefer - slow application
+common wait for all the webelements
+
+- Implicitly Wait is a common wait for all the elemnets in the script (findElement, findElements)
+- It is used to avoid the NoSuchElementException when the element is loaded little late
+- If the element is loaded within the time limit, it  will locate the element immediately and proceed with the next step in the script.
+- If the element is not loaded within the time limit, it  will throw NoSuchElementException
+- Best practice is to apply ImplicitlyWait at the starting of the script
+
+hari.radhakrishnan@qeagle.com
+Testleaf$123

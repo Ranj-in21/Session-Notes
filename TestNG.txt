@@ -1,0 +1,435 @@
+TestNG (21/01/2023)
+*******************
+TestNG plugin ---> compile and execution
+TestNG maven dependency ---> library required for developing the TestNG script
+Windows ----> Preferences ----> TestNG on the left panel (plugin)
+Pom.xml ---> add the dependency (dependency)
+
+
+What is TestNG?
+    TestNG - execution framework
+        Test Next Generation
+        testng.org (documentation is good)
+         Summary report for the testcases and logging
+         executing multiple testcases together (in main method, we cannot execute all the testcases together)
+         executing parallel testcases
+         data driven testing
+    JUnit, NUnit - other framework
+
+    supports multiple execution in single run
+    supports sequential and parallel execution
+    generates reports and provide the status of the execution
+    categorize the testcases using TestNG groups
+    supports cross browser testing
+    supports assertions (verification and validation)
+    supports to rerun the failed testcases
+
+    convert main method to normal method
+    remove static, string argument, change the method name to runCreateLead()
+    @Test annotation before main method and within the class
+    import from testng
+
+    @Test - testcase (method below will be considered as a testcase)
+
+Select the testng testcases
+right click - testng - convert to testng - change the filename - finish
+open the testng.xml - rearrange the testcases - run as 1 TestNG testcase
+
+
+Change the username as Demosalesmanager
+select all the testcases and create testng_seq.xml
+run the testcases 
+
+Refresh the project to view the report - test_output folder - html report & xml report
+html - emailable_report.html - right click - open with system editor, index.html - open with system editor
+xml - testng_result.xml 
+
+<suite> can contain multiple test set 
+    <test> grouping the testcases (Lead, Account)   can have multiple testcases(classes)
+            --Test Set1--
+        <classes>
+            <class name = "packagename.classname"/>
+                           testcases.CreateLead
+
+
+        </classes>
+
+
+    </test>
+    <test>
+            --Test Set2--
+
+
+    
+
+    </test>
+</suite>
+
+
+<suite name = "LeafTaps_Testcases">
+<test name = "Leads">
+<classes>
+<class name = "testcases.CreateLead"></class>
+
+CTRL + SHIFT + F 
+
+</classes>
+</test>
+</suite>
+
+
+Ctrl+Shift+/
+Ctrl+Shift+\
+
+Parallel execution
+
+<test name = "Lead" parallel = "classes">
+                    attribute   value
+thread- count = 2 - it will open only two browsers
+
+verbose - failure log in the console (0 to 10)
+
+TestNG Annotations
+
+Right click the package - create testng class
+
+Annotations are meta tags providing extra info to the test methods
+To maintain a structured, readable, user friendly testcases
+to control the execution order and behaviour of the testcases
+
+@BeforeSuite            Preconditions
+@BeforeTest
+@BeforeClass            optional
+@BeforeMethod
+
+@Test                   Mandatory annotation
+
+@AfterMethod           Postconditions
+@AfterClass
+@AfterTest             optional
+@AfterSuite
+
+src/test/java - as testng is a testing framework
+change to src/main/java
+
+@BeforeMethod           Will depend on the number of testcases
+    @Test 
+        Testcase1
+@AfterMethod
+
+@BeforeMethod
+    @Test 
+        Testcase2
+@AfterMethod
+
+@BeforeMethod
+    @Test 
+        Testcase3
+@AfterMethod
+
+@BeforeSuite - start capturing a report (creating/generating a report)
+Create a report in a particular folder to capture the status
+    @BeforeTest - create a database DB connection / Setup test set level information        2 @BeforeTest will be executed
+
+            <test name = "testcase.CreateLead"/>
+
+
+            </test>
+
+            <test name = "testcase.EditLead"/>
+
+            </test>
+        @BeforeClass - Testcase level information can be setup 
+            @BeforeMethod - common code which you need to execute before every testcase - Setup the browser and load the application
+
+
+All the annotations are executed based on the xml tags present in the pom.xml (priority)
+
+To have a common precondition & Postcondition
+Step:1 Create a base class in the package
+    @BeforeClass
+    @AfterClass
+Step:2 Extend the base class to the testcases class
+    public class LeafTapsTestcases extends BaseClass
+Step:3 Create preCondition() and postCondition() in BaseClass
+Step:4 Move the common code to preCondition and postCondition appropriately
+Step:5 Declare the ChromeDriver as global variable in BaseClass
+Step:6 Remove the local declaration in the preCondition()
+Step:7 Remove the common code from the testcases
+
+priority - methods in parent class 
+
+overridden method - method in the child class will be executed (method in parent class and child class are same)
+
+Declare the ChromeDriver as global variable
+public ChromeDriver driver;
+Remove the local declaration in the preCondition method
+driver =  new ChromeDriver();
+
+To execute before and after every testcase
+@BeforeMethod
+
+    common steps
+
+@AfterMethod
+
+    driver.close();
+public class CreateLead extends BaseClass
+@Test
+public void runCreateLead(){
+
+
+}
+
+
+Though the testcase fails, @AfterMethod will be executed
+
+Invocation Count:
+*****************
+How to execute the test data multiple times?
+invocationCount is a method to execute a testcase multiple times.
+data type is int 
+default value is 1
+
+@Test(invocationCount = 3) ----> attribute for @Test
+public void createLead(){
+    system.out.println("Create Lead");
+}
+
+threadPoolSize:
+***************
+to execute parallely 
+@Test(threadPoolSize = 3, invocationCount = 3)
+
+Priority
+********
+Priority: ASCII order --> when you have same annotation for different methods, the methods will be executed in ASCII order
+@Test(priority = 1)
+default value is 0  
+least value is executed first ---> priority = 0, 1, 2, 3,...0 is executed first
+accepts negative values - -1, -2
+
+enabled
+*******
+@Test(enabled = false)
+ignore the testcase from execution
+enabled = false
+data type is boolean
+default value is true
+
+dependsOnMethods
+****************
+@Test(dependsOnMethods = "EditLead", priority = 1)
+
+    
+    {
+    system.out.println("CreateLead");
+    throw new NoSuchElementException();
+}
+If the parent tescase fails, dependsOnMethods testcase will be skipped
+default value is empty array
+data type is String[]
+dependsOnMethods = {"createLead", "editLead"}
+@Test(dependsOnMethods = "packagename.ClassName.methodName") ---> best practice
+
+Data Parameterization
+*********************
+1. static - common for all testcases
+2. Dynamic - specific to a testcase
+
+Why parameterization? java code and xml are seggregated. Easy maintenance
+How to parameterize?
+How to pass static data using TestNG?
+
+<suite>
+<parameter name = "url" value = "http://"> </parameter>
+<parameter name = "username" value = "Demosalesmanager"> </parameter>
+<parameter name = "password" value = "crmsfa"> </parameter>
+
+preCondition - BaseClass ---> @Parameters ----> import
+@Parameters({"url", "username", "password"}) //order of the parameter doesn't matter...it can be anything. 
+Name should be exactly matching with the name in testng.xml
+@BeforeMethod
+public void preCondition(String url, String uName, String pName){   //order must be same as defined in the parameters. 
+argument name could be any meaningful name
+
+
+} Replace the hard coded value with the arguments. 
+
+
+Dynamic data -- @DataProvider - to pass multiple data to the testcase
+
+Create another method after @Test  (in testcases)
+@Test(dataProvider = "fetchData")
+runCreateLead(String companyName, String fName, String lName)
+@DataProvider(name = "fetchData")
+public String [][]sendData(){
+
+    //Step 1: declare a 2D String array
+    first[] - rows
+    second[] - columns
+    String[][] data = new String[2][3];
+
+    //Step 2: Assign data for 2D array
+
+    data[0][0] = "Testleaf";
+    data[0][1] = "Hari";
+    data[0][2] = "R";
+
+    data[1][0] = "TL";
+    data[1][1] = "Aravinth";
+    data[1][2] = "R";
+
+    return data;
+
+}
+
+
+How to read data from Excel?
+
+Apache POI - to read data from Excel    supports both .xls, .xlsx
+libraries poi (.xls), poi-ooxml (.xlsx)
+
+Step: 1 Create a data folder in my project  
+        Right click on project - New - Folder - data
+
+Step: 2 Go data folder properties and get the data path
+
+Step: 3 Create a excel file with data and save it in data folder
+
+
+
+ReadExcelData - class name
+Workbook --- > Excel Sheet (can have multiple sheets) ---> WorkSheet (can have multiple rows) ---> Row (can have multiple cells)
+                Row ---> Cell
+
+XSSFWorkbook        HSSFWorkbook for .xls
+XSSFSheet
+XSSFRow
+XSSFCell
+
+getSheet()
+getRow()
+getCell()
+Step:1 Identify the Workbook
+XSSFWorkbook wb = new XSSFWorkbook("./data/CreateLead.xlsx"); ---> Add throws declaration
+
+XSSFSheet ws = wb.getSheet("Sheet");
+
+//to get the number of rows
+int rowCount = ws.getLastRowNum();      int includingFirstRow = ws.getPhysicalNumberOfRows();
+system.out.println(rowCount);
+
+int cellCount = ws.getRow(0).getLastCellNum();
+System.out.println(cellCount);
+
+for(int i = 1; i<=rowCount; i++){ //traverse through the row
+    for(j=0; j<3; j++){     //0,1,2
+
+     String cellValue = ws.getRow(i).getCell(j).getStringCellValue();
+      system.out.println(cellValue);
+    }
+
+   
+
+}
+
+//XSSFRow row = ws.getRow(1);
+
+//XSSFCell cell = row.getCell(0);
+
+//String cellValue = cell.getStringValue();
+//system.out.println(cellValue);
+
+wb.close();
+
+String cellValue = ws.getRow(1).getCell(0).getStringCellValue();
+system.out.println(cellValue)
+
+How to read 
+
+1. Declare 2D array variable in ReadExcel program with dimensions as rowCount & cellCount
+2. Save the data into the 2D array by having [i-1][j]
+3. Change the main method into normal method 
+
+    public static String readData()
+
+    Remove String[] args
+    change the method name
+4. Add return data.
+5. Call the readData() method from DataProvider
+String[][] data = new String[rowCount][cellCount];
+for(int i = 1; i<=rowCount; i++){ //traverse through the row
+    for(j=0; j<3; j++){     //0,1,2
+
+     String cellValue = ws.getRow(i).getCell(0).getStringCellValue();
+        data[i-1][j] = cellValue;
+
+      //  system.out.println(cellValue);
+
+    }
+
+    wb.close();
+    return data;
+
+
+@DataProvider(name = "fetchData")
+public String[][]sendData(){
+
+    //String[][] readData = ReadExcelData.readData(); throws IOException
+   // return readData;
+
+    return ReadExcelData.readData();
+
+    }
+    @BeforeSuite
+        @BeforeTest
+             @BeforeClass
+                 @DataProvider
+                     @BeforeMethod
+                         @Test
+
+
+How to implement common DataProvider for all the Testcases?
+
+1. Move the @DataProvider code to the BaseClass
+2. Remove @DataProvider from the testcases class
+3. Add a String argument to readData() 
+ Rename the excel workbook name as 
+    public static String[][] readData(String fileName)
+    ("./data/" +fileName+ ".xlsx")
+4. Replace the hardcoded file name with the variable name
+In BaseClass.java 
+    Create a global variable
+    public String excelFileName     //initial value is null
+    @DataProvider
+5. Use the excelFileName variable  in @DataProvider while calling the readData(excelFileName)
+6. In testcase, create a method setValue() (all the testcases with @BeforeTest)
+
+    @BeforeTest                         you can use @BeforeSuite or @BeforeClass also. For Hybrid framework we will use @BeforeClass for another purpose
+    public void setValue(){
+        excelFileName = "CreateLead";   //Before DataProvider gets executed you have to execute setValue method
+    }
+
+7. In BaseClass.java 
+    @DataProvider(name = "fetchData", indices = 0)   only one data will be passed from the excel sheet
+    indices --> row --> 100 --> 0 to 99
+
+How to Retry / Rerun failed testcases?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

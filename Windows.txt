@@ -1,0 +1,41 @@
+Window Handling
+---------------
+- It is required when we have multiple windows/tabs opened in the application
+- If we want to do same actions in the new window/tab, we need to switch the control to the new window/tab
+
+gettWindowHandle() --> String output --> Unique reference of the current window
+getWindowHandles() --> Set (LinkedHashSet) -->All the unique references of the open windows --> it maintains the order of the window
+
+Set to List
+List<String> listofHandles = new ArrayList<String>(allWindowHandles); Set name in the constructor
+
+Steps to switch control to the new window
+-----------------------------------------
+Get all the window handles using getWindowHandles()
+Copy the references to List (Set<String> into List<String>)
+Use get (index) in list to get a single reference
+Pass the reference in driver.switchTo().window (reference String)
+
+driver.close() - close the current window
+
+IRCTC
+By.linkText("FLIGHTS").click();
+
+Want to locate all the elements having inputLogin as a class
+
+findElement() --> to locate single elements
+findElements() --> to locate multiple elements
+	id
+	name
+	className --> multiple elements
+	tagName --> multiple elements
+	
+driver.findElements(By.tagname("a")) ctrl+2+L
+List----list.size()
+
+How to print all the link text
+Use foreach	for(WebElement eachLink : alllinks){
+			eachLink.getText();	ctrl+2+L
+			syso(str)
+			}
+

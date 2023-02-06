@@ -1,0 +1,208 @@
+Abstraction
+***********
+- process of hiding the implementation details and showing only the functionality to the user
+- lets you to focus on what the object does instead of how it does it
+
+Ways to acheieve abstraction
+****************************
+1. Abstraction (0 to 100%)
+2. Interface (100%)
+
+- Interface
+- Abstract class 
+- Concrete class
+
+Interface
+*********
+- Interface is a blueprint for a class. 
+- achieve abstraction and multiple inheritance
+- It defines a set of methods that a class must implement, but does not provide any implementation for those methods. 
+    - How will you create an Interface?
+        Package --> Interface ---> Vehicle
+            applybrake()                Variables are information - what is what?
+            vehicleColor()              Methods are actions that you're performing
+            fuelCapacity() 
+You cannot implement these methods inside the interface. So interface does'nt have any implemented body (you have only unimplemented methods)
+100% abstract
+Since Java 8, we can have default and static methods in an interface.
+Since Java 9, we can have private methods in an interface.
+You need an implementation class to make it work
+Why do you use an interface? It is always the best practice to have clean design and code principles
+
+Implement these unimplemented methods in a separate Java class
+        Package --> Class --> TwoWheeler
+How will you implement your interface?  Interface can be implemented using the keyword 'implements'
+It shows you the error under the class name
+Here you can implement all the methods in the interface
+
+Can you create an object for an interface? 
+No, you cannot instantiate the interface
+
+If you add any method in the interface, it will be automatically reflected in the implementation class
+
+        - class extends class
+        - interface extends interface
+        - class implements interface
+    
+multiple inheritance - a class implements multiple interfaces or an interface implements multiple interfaces
+Multiple inheritance is not supported in class level because of ambiguity, but it is achieved through interface (no ambiguity here)
+implementation is provided by different implementation class
+
+Selenium Examples: WebDriver, SearchContext, Alert, WebElement
+Java Examples : List, Set, Map
+
+- SearchContext 
+-  WebDriver 
+- TakesScreenshot 
+- JavascriptExecutor 
+- Navigation 
+- OutputType 
+- WebElement 
+- TargetLocator 
+- Alert 
+- Action 
+- ExpectedConditions 
+- Options 
+- Timeouts
+
+Abstract class
+**************
+- not fully ready (completed + abstract) (implemented method + abstract)
+Let's create an abstract class 
+Package --> Class -->   click abstract class
+public abstract class ElectricScooter implements Vehicle{
+
+
+}
+
+It will not show you any error as how it throwed error in TwoWheeler class 
+because abstract class is a partial implementation. It allows both implemented and unimplemented methods
+
+When I remove abstract from the class, error will be thrown.
+So in abstract, it is not mandatory to implement all the methods of an interface
+- keyword of the class: abstract
+- we can have our own abstract method
+- if you write an abstract method, you need to write an abstract keyword
+        In interface also you can add abstract keyword in the method, but it is understandable that all the methods are abstract.
+        In abstract method, you need to tell whether you are implementing the method or leaving it as an unimplemented one.
+        public abstract int chargingTime();
+- cannot instantiate an abstract class
+    Why can't you create an object?
+    Because it may have an unimplemented method
+
+You can create an object only for a  concrete class
+
+
+Collection
+**********
+- Dynamic Array (Size can grow or shrink)
+- Automated increment / decrement
+- Collection can hold only Classes (No Primitive data types)
+        You need a wrapper class to store the value
+        int         Integer
+
+List
+- Interface
+- It can hold duplicate data
+- Order : FIFO
+- Based on index
+
+Can you create an object for an interface? No
+
+Implementation Class
+- ArrayList / LinkedList
+
+Methods of List
+- size()                                    Number of items inside the list
+- add(class ele)                            Element will get added to (last index + 1)
+- remove(class ele) / remove(int index)     Remove particular element
+- get(index)                                retrieves the element in the given index
+- clear()                                   removes all the elements from list
+
+List<String> mentors = new ArrayList<String>();
+cannot create an object for the interface. So ArrayList is used
+ generic - what data type the Collection holds
+ Data type       wrapperclass
+   
+   int               Integer
+   
+   short             Short
+   
+   long              Long
+   
+   float             float
+   
+   double            Double
+   
+   char              Character
+   
+   String            String
+   
+   boolean           Boolean
+
+mentors.add("Ram");
+mentors.add("Princilla");
+mentors.add("Aravind");
+mentors.add("Subraja");
+mentors.add(Dilip");
+
+mentors.size();        Ctrl+2+L
+
+mentors.remove("Dilip");
+System.out.println(mentors);
+
+Can you add an element at a particular index
+mentors.add(int index, String element)
+mentors.add(1, "Raghu");
+
+System.out.println(mentors.get(0));
+
+In a dropdown, if you want to get a list of options -  we use list.getOptions()
+
+When not to use ArrayList?
+- when you keep adding the items in between
+- when you keep removing the items in between
+
+Collections.sort(mentors);
+
+To print all the elements in the list
+for(int i = 0; i < mentors.size(); i++){
+    syso
+
+}
+
+Set
+
+- Interface
+- It cannot hold duplicate data / only unique
+
+Impelementation class
+
+- HashSet            - Based on hashing algorithm (random)              fast performance
+- TreeSet            - Based on ASCII order (alphabetical order)
+- LinkedHashSet      - Based on Insertion order (FIFO)
+
+Methods of Set
+
+- size()                                    Number of items inside the set
+- add(clasd ele)                            Element will get added to particular index based on implementation class
+- remove(class ele) / remove(int index)     Remove particular element
+- get(index)                                retrieves the element in the given index
+- clear()                                   removes all the elements from list
+- get(int index)                            This method is not available
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

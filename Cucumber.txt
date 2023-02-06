@@ -1,0 +1,285 @@
+Cucumber Framework
+
+BDD Introduction - Behavioural Driven Development
+- automation tool that supports BDD 
+- improved communciation and collaboration between Technical and Non-technical team (agile methodology)
+- Cucumber plugin (execution) and dependency (to add library) added to the project
+
+TDD Test Driven Development
+- depends on testcases
+- lot of negative testcases covered rather than positive testcases
+
+Acceptance Test Driven Development
+- focus on positive testcases
+- acceptance tests are written before software development
+- testcases are written by business team
+- communciation gap between technical and non-technical team
+
+BDD
+- bridge the gap between technical and non-technical team
+- common language - Gherkin: group of English words to write testcases (to define acceptance criteria for features
+in a software project)
+- Getting the Words Right is the focus of BDD
+
+Gherkin Keywords
+In a testcase you have  Test case id 
+                        Test case description:
+                        Test Data
+                        Pre-condition
+                        Test Steps
+                        Expected Result
+                        Actual Result
+                        Status
+
+Feature : Describes the functionality of an application (only once in the feature file)
+Scenario: Describes a testcase / behaviour (it can be multiple for a feature file)
+Given : Represents a pre condition
+When : Represents Test condition / Test Step
+Then : Represents Expected Result(for a positive scenario)
+But : Represents Expected Result(for a negative scenario) 
+And : To combine multiple Given, When or Then steps in scenario
+Scenario Outline : To run same scenarion multiple times with different set of data
+Example : comes along with Scenario Outline carrying different set of data 
+
+Java - Cucumber, JBehave, JDave, FitNesse, Concordian
+.Net - Specflow
+
+Features layer - file to write testcases
+
+         Step Definition Layer / Implementation (Java methods) to implement the test step
+
+                    Runner Layer (TestNG) - execution
+
+Plugin - Cucumber Eclipse Plugin
+         Cucumber Editor (Natural)
+Dependency - Cucumber Java & Cucumber TestNG
+
+Feature: LeafTaps login functionality
+Scenario: Login with positive credential
+Given Open the Chrome browser                         Pre condition
+(Given) And Load the application url                  Pre condition
+(Given) And Enter the username as Demosalesmanager    Pre condition
+(Given) And Enter the password as crmsfa              Pre condition
+When Click on Login button                            Test condition Validation (error message)
+Then Homepage should be displayed                     Expected Behaviour Positive scenario
+
+package steps;
+public class StepDefinition{
+
+    public ChromeDriver driver;
+    @Given("Open the Chrome browser")
+    public void openBrowser(){
+        driver = new ChromeDriver();
+
+    }
+    @Given
+    public void loadApplication(){
+        driver.get("");
+     }
+    public void enterUsername(){
+
+      }
+    public void enterPassword(){
+
+       }
+    @When("")
+    public void clickLogin() {
+
+    }  
+    @Then("")
+    public void verifyHomePage(){
+
+    }
+
+}
+runner ---> CucumberRunner(class)--TestNG runner / JUnit runner (no runner for Cucumber)
+JUnit - default runner for Cucumber
+@CucumberOptions(features = "src/test/java/features/Login.feature",
+                 glue = "steps",
+                 monochrome = true)   //feature is an attribute  glue = "packageName"   monochrome is to remove junk
+                                     // characters  publish = true
+public class CucumberRunner extends AbstractTestNGCucumberTests{        //TestNG cucumber runner, it is a class
+
+
+}
+If you have a multiple methods for a single step, DuplicateStepDefinition exception is thrown
+If you don't have a step definition, UndefinedStepDefinition exception is thrown
+snippet - skeleton of an implementation
+
+Cucumber Report
+publish = true
+View your Cucumber report at:
+URL - Copy & Paste in browser
+
+How to pass data from feature file to Step Definition methods?
+1. Keep the data within single quotes in the feature file
+'Demosalesmanager' 'crmsfa'
+2. In Cucumber annotation, replace the data with {} and mention the datatype inside{}
+Eg., In StepDefinition.java @Given("Enter the Username as {string}")      //{} regular expression
+3. Create argument in the method to get input and replace the hard coded value with the argument
+Bring the data inside the method public void eneterUsername(String uname){  //Java method
+    driver.findElement(By.id("")).sendkeys(uname);
+}
+@Given ("Enter username as {string} and password as {string})
+public void enterCredential(String uName, String pWord){
+
+}
+
+
+Scenario: Login with negative credential
+Open the browser is already present. Don't declare the method again
+DuplicateStepDefinition exception
+
+Steps to pass multiple data to a scenario:
+
+Scenario Outline: Login with positive credential
+<url>
+<username>
+<password>
+
+
+
+Examples:
+|username|password|url|
+|'Demosalesmanager'|'crmsfa'|'https:'|
+|'Democsr'|'crmsfa'|'https:'|
+
+Change the Gherkin keyword as Scenario Outline
+Create Examples followed to the Scenario Outline
+First row is the header row and header name should be enclosed within ||
+Second row onwards data should be given within || (pipes)
+
+Common pre condition    Keyword: Background
+Feature: 
+
+Background: //to have common pre-condition for all scenarios in a feature file
+//Background is applicable only to scenarios in a particular feature file. 
+//It is not applicable for the scenarios in the other feature file
+//There is no Gherkin keywordfor common post xondition
+//Hooks is used to overcome the cons of Background
+Given Open the Chrome Broswer
+And Load the application url "https:"
+
+Scenario Outline:
+
+Examples:
+
+Hooks
+Hooks are Cucumber Annotations
+
+@before
+@After
+Initially, Cucumber was developed in Ruby language (annotations are called as hooks)
+
+@before is used to execute before each scenario
+@After is used to execute after each scenario
+
+Steps to implement hooks:
+1. Create a base class to have a common methods and variables
+2. In steps package, Create a class - BaseClass
+    Move the chromeDiver declaration public ChromeDriver driver to BaseClass;
+3. public class StepDefinition extends BaseClass
+    All the Ste classes should extends BaseClass
+4. Create a class HooksImplementation in steps package which extends BaseClass
+    HooksImplementation extends BaseClass
+5. Create two methods: preCondition and postCondition with @Before and @After annotations respectively
+6. Add necessary codes into preCondition() and postCondition()
+    public class HooksImplementation extends BaseClass{
+        @Before
+        public void preCondition(){
+            driver = new ChromeDriver();
+            Maximize
+            timeout
+            load url
+        }
+        @After
+        public void postCondition(){
+            driver.close();
+        }
+
+    }
+Background is not required in Login.feature
+
+To run multiple feature files 
+@CucumberOptions(features = {"src/", ""})       //"src/test/java/features" - to run all files under features 
+
+NullPointerException
+                        BaseClass   ChromeDriver driver = null (initial value)
+                         extends
+      StepDefinition                  HooksImplementation (driver is initialized)
+    (driver is not passed here)
+    To avoid this, declare the driver in BaseClass as static
+
+    public static ChromeDriver driver;
+
+InvalidMethodException 
+Classes that are having step definitions(@When, ...) and hooks (annotations) cannot be extended
+
+public class BaseClass extends AbstractTestNGCucumberTests{
+        @BeforeMethod
+        public void preCondition(){
+            driver = new ChromeDriver();
+            Maximize
+            timeout
+            load url
+        }
+        @AfterMethod
+        public void postCondition(){
+            driver.close();
+        }
+
+    }Steps to use TestNG annotations
+    1. Move the preCondition and postCondition to the BaseClass with @BeforeMethod and @AfterMethod respectively
+    2. Remove or Delete HooksImplementation
+    3. RunnerClass should extends BaseClass and BaseClass should extends AbstractTestNGCucumberTests
+
+    public class RunnerClass extends BaseClass{
+
+    }
+    RunnerClass requires methods from AbstractTestNGCucumberTests + methods from BaseClass
+
+    AbstractTestNGCucumberTests
+            BaseClass
+                    CucumberRunnerClass (parent + grandparent)
+
+
+steps 
+BaseClass.java
+CreateLead_StepDefinition.java  (extends BaseClass)
+Login_StepDefinition.java       (extends BaseClass)
+
+Tags
+Tags are used to categorize test scenarios
+Regression
+Functionality
+Smoke
+Sanity
+
+Feature: 
+@functional @smoke @regression
+Scenario:
+
+
+RunnerClass--> tags = "@smoke or @Functional"   either one is available, it is eligible for execution
+            //scenarios having either @smoke or @functional
+            tags = "@smoke and @functional"     //scenarios having both 
+            tags = "not @smoke"     //to execute all the testcases except smoke
+            tags = "@CreateLead"
+
+- Apply @smoke and @functional for Login positive scenario
+- Apply @functional for login negative scenario
+- Apply @regression for CreateLead scenario
+- Add tags in the @CucumberOptions with 
+        tags = "functional or @smoke"
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,94 @@
+package marathon;
+
+import java.io.File;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.By;
+
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class AmazonNew {
+
+	public static void main(String[] args) throws InterruptedException, IOException {
+		
+		WebDriverManager.chromedriver().setup();
+		ChromeDriver driver = new ChromeDriver();
+		driver.get("https://www.amazon.in/");
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+		
+		driver.findElement(By.id("twotabsearchtextbox")).clear();
+		driver.findElement(By.id("twotabsearchtextbox")).sendKeys("bags");
+		
+		driver.findElement(By.xpath("//span[text()=' for girls']/parent::div")).click();
+		
+		String results = driver.findElement(By.xpath("(//div[@class='a-section a-spacing-small a-spacing-top-small']/span)[1]")).getText();
+		System.out.println(results);
+	//	String results1 = driver.findElement(By.xpath("(//div[@class='a-section a-spacing-small a-spacing-top-small']/span)[3]")).getText();
+	//	System.out.println(results1);
+		
+		Thread.sleep(4000);
+		driver.findElement(By.xpath("(//i[@class='a-icon a-icon-checkbox'])[2]")).click();
+		driver.findElement(By.xpath("(//i[@class='a-icon a-icon-checkbox'])[3]")).click();
+		String result2 = driver.findElement(By.xpath("(//div[@class='a-section a-spacing-small a-spacing-top-small']/span)[1]")).getText();
+		System.out.println(result2);
+		
+		if(results.equalsIgnoreCase(result2)) {
+			
+			System.out.println("The count of items is same");
+		}else {
+			
+			System.out.println("The count of items is not same");
+		}
+		
+		WebElement sort = driver.findElement(By.xpath("//span[@class='a-dropdown-prompt']"));
+		Actions builder = new Actions(driver);
+		builder.moveToElement(sort).click().perform();
+		driver.findElement(By.xpath("(//a[@class='a-dropdown-link'])[4]")).click();
+		
+		String bagName = driver.findElement(By.xpath("(//h5[@class='s-line-clamp-1']/span)[1]")).getText();
+		System.out.println("Bag Name: " +bagName);
+		String Discount = driver.findElement(By.xpath("(//span[@class='a-price-whole'])[1]")).getText();
+		System.out.println("Discount Price:" +Discount);
+		
+		driver.findElement(By.xpath("(//img[@class='s-image'])[1]")).click();
+		Set<String> Win = driver.getWindowHandles();
+		List<String> Windows = new ArrayList<String>(Win);
+		
+		driver.switchTo().window(Windows.get(1));
+		Thread.sleep(2000);
+	
+		String price = driver.findElement(By.xpath("(//div[@class='a-section a-spacing-none aok-align-center']/span)[2]")).getText();
+		String replaceAll = price.replaceAll("\\D", "");
+		String priceNew = replaceAll.replaceAll("0", "");
+		
+		System.out.println("Deal of the day price: " +priceNew);
+		if(Discount.equalsIgnoreCase(priceNew)){
+			System.out.println("The prices are same");
+		}else {
+			System.out.println("The prices are not same");
+			
+		}
+		
+		File source = driver.getScreenshotAs(OutputType.FILE);
+		File destination = new File("./snaps/bags.png");
+		FileUtils.copyFile(source, destination);
+		
+		driver.switchTo().frame(3);
+	System.out.println(driver.findElement(By.xpath("((((//div[@class='flex align-middle justify-center items-center overflow-hidden relative h-full w-full px-3']/div)[3]//div)[6]//div)[3]/span)[1]")).getCssValue("background-color"));
+			
+		driver.close();
+		
+	}
+
+}

@@ -1,0 +1,18 @@
+Web Table
+Tag name with <table>
+
+Types of Web Table
+1. Static Table	--> Number of rows and columns remain same always	moneycontrol.com
+2. Dynamic Table --> Number of rows or columns will change based on the inputs
+
+WebTable structure is same for both static and dynamic tables
+<table>
+	<thead>	table header		to have the column header
+		<tbody> table body	to have the data
+			<tr>  	</tr>	table row	no.of tr tags matches with no.of rows in the application
+			<td>	</td>	table data	each information in the row will be having td tag
+			<td>	</td>
+			<tr>	</tr>
+		</tbody>
+	</thead>
+</table>

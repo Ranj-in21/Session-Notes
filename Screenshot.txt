@@ -1,0 +1,20 @@
+How to take screenshot of a Page?
+
+Take the screenshot
+File source = driver.getScreenshotAs(OutputType.FILE) ctrl+2+L
+
+Define the target file
+File target = new File("./snaps/LeafTaps.jpg");
+
+Save the source to target
+FileUtils.copyFile(source, target)
+
+
+How to take screenshot of a WebElement?
+WebElement webElement = driver.findElement(By.id("userame")); ctrl+2+L
+
+File source = webElement.driver.getScreenshotAs(OutputType.FILE) 
+
+
+Dependency - commons.io
+

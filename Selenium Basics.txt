@@ -1,0 +1,115 @@
+Selenium Basics
+                                                                                                    F12 - to inspect DOM
+UI automation framework to test web applications
+    web application - applications that can be accessed through browsers
+what is open source? 
+    free of cost, can view the entire code to develop
+     more than 48% share
+
+When to use? Regression and functional testing
+    Functional - checking the functionalities of the application
+    Regression - checking again the enhanced functionalities without affecting the application
+
+Selenium can talk to any browser 
+Selenium can support multiple OS
+
+Selenium cannot interact with database - requires JDBC library (Java library)
+Selenium will not automate desktop application - requires java library - Apache POI
+Selenium will not automate mobile application - Appium
+
+Code                 --->      driver     ---> browser
+Java, C#, Perl,..  API call request
+                    W3C prtocol (certain rules are followed)
+                                     response <-----
+
+Win + R
+.cache
+    Selenium
+        chromeDriver
+            Win 32 - Check browser version from Settings - downloaded automatically
+
+taskkill/ in / r - killing the instances of the driver
+chrome driver download - first link
+win 32 - for 32 & 64
+
+What is Illegal State Exception?
+How to set a path to Java?
+Set a path in Selenium - System.setProperty("webdriver.chrome.driver ,"Path with .exe file");
+
+<input id = "username" name = "USERNAME"/>
+  tag attribute = "value"
+
+  TagName - purple
+  Attribute - brown
+  Attribute value - blue
+  Text - black
+
+  Locators (8)
+  1. id - attribute - 1st priority      faster and unique           changing numbers            #          
+  2. name - attribute - 2nd priority                                duplicate
+  3. linkText - if the tag name is <a> with text - 3rd priority     duplicate
+  4. className - attribute - 4th priority                           white spaces, duplicate     .
+
+  By ---> class
+
+  5. partialLinkText
+  6.  tagName - for collection of objects                            duplicate                   //
+
+
+.getAttribute - if there is a text field inside a input box (text present inside the text field)   attribute value = ""
+.getText -  black color text present inside the tags
+
+DropDown
+
+<select> parent                     Select class in Selenium
+    <option>    child
+WebElement ele = driver.findElement(By.className(" "));
+Select dd = new Select (ele);
+//Select the option
+dd.selectByIndex(1);    Index --- use only when you want to select any one value (it can be anything) from the dropdown
+dd.selectByVisibleText("PlayWright");
+dd.selectByValue    value attribute
+
+To get the options available in dropdown
+dd.getOptions       Ctrl + 2 +  L
+
+List<WebElement> options = dd.getOptions();
+for (int i = 0; i < options.size(); i++){
+
+  // WebElement option =  options.get(i);  ctrl+2+Lead
+ //   String text = option.getText();
+   // syso(text);
+    syso(optios.get(i).getText());
+
+
+}
+
+for each 
+for (Collection Type    variable name : Collection){
+        WebElement          eachOption      options
+        syso(eachOption.getText);
+
+}
+
+
+XPath --1. Attribute based XPath            //tagName [@attributeName = 'attributeValue'];              //input[@type = 'password'];
+        2. Text based XPath                 //tagName[text() = 'textValue'];                            //label[text()='Password'];
+        3. Partial Attribute based Xpath    //tagName[contains(@attributeName, 'attributeValue')];      //input[contains(@type, 'pass')];
+        4. Partial Text based Xpath         //tagName[contains(text(), 'textValue')];                   //label[contains(text(),'Pass')];
+
+    //input[@type = ' '] [@id = ' ']
+        5. Index based XPath                (//tagName[contains(text(), 'textValue')])   
+
+
+Parent to child : xpath for parent /childTagName        When no attribute is present in the child tag - navigate from parent to child
+Child to parent : Xpath for child /parent::parentTagName
+
+GrandParent to GrandChild : xpath for GrandParent // GrandChild
+GrandChild to GrandParent : xpath for GrandChild / ancesstor::GrandParentTagName
+
+ElderSibling to YoungerSibling : xpath for ElderSibling / following - sibling :: YoungerSiblingTagName
+YoungerSibling to ElderSibling : xapth for YoungerSibling / preceding - sibling :: ElderSiblingTagName
+
+ElderCousin to YoungerCousin : xpath for ElderCousin / following :: YoungerCousinTagName
+YoungerCousin to ElderCousin : xpath for YoungerCousin/ preceding :: ElderCousinTagName
+

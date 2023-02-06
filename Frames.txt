@@ -1,0 +1,45 @@
+Frame
+
+<frame>/<iframe> ->	tag used to create frame
+			DOM inside another DOM/ html code embedded inside another html code
+			Frequently changing content will be created inside the frame
+				-Without disturbing the main page/content
+
+
+iframe- inline frame ->	used when we want to change the position of frame
+
+If you want to interact with the web element in a page, you have to handle the frame.
+Transfer the driver focus to the frame
+
+How to identify the frame?
+1. View frame source
+   Reload frame
+2.//iframe
+
+buythevalue.in
+
+How to handle the frame?		Method Overloading
+1. Using index
+2. Using id/name attribute
+3. Using WebElement
+
+driver.switchTo().frame(String) id/name
+
+driver.switchTo().frame(int index) index		index satrts with 0
+
+Locate iframe as a WebElement "Ctrl+2+L"
+driver.switchTo().frame(firstName)
+
+Want to access the element in the main page
+
+driver.switchTo().defaultContent();
+
+NoSuchFrameException
+
+Nested Frame - one frame inside another frame
+
+Get into the outer frame first, then get into the inner frame, then interact with the web element
+driver.switchTo.frame(2);	driver.switchTo().frame(0);	driver.findElement(By.id("Click")).click();
+
+
+driver.switchTo().parentFrame();	To get the control to its immediate parent

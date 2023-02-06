@@ -1,0 +1,38 @@
+Alert
+
+Alert is an information or messeage from the app
+If you don't handle, it won't allow to access the application
+You can't inspect the alert
+
+Copy the alert message and inspect the dom - paste
+Javascript code
+
+Alert - is not inspectable
+	cannot be ignored
+
+Modal Dialog : Java Script function. We can't inspect the alert elements. Unless you handle the alert, we cannot interact with the Webpage elements.
+------------
+Types:  Simple Alert	- 	Alert message with 1 button	
+				Accept the alert - accept() - click the ok button	 Read the message - getText()
+	
+	Confirm Alert	- 	Alert message with two buttons
+				Accept the alert - accept() - click the ok button	dimiss() - click cancel		 Read the message - getText()
+
+	Prompt Alert	-	Alert message with 1 input field and 2 buttons
+				Accept the alert - accept() - click the ok button	dimiss() - click cancel		 
+				sendKeys() - type value in the input field		Read the message - getText()
+
+Non-Modal Dialog :
+----------------
+Sweet Alert - We can inspect the elements in the alert
+No need to switch the control to alert
+
+How to handle the alert?	Switch the control to alert - driver.switchTo().alert();
+Alert is an interface
+
+Exceptions:
+-----------
+NoAlertPresentException	- When the alert is not present and try to handle an alert - doing some actions on alert (getText after accepting alert)
+UnhandledAlertException - It occurs when we try to access other webelements without handling the alert in the application
+
+If you are going to do only single action, you can use driver.switchTo().alert().dismiss();
